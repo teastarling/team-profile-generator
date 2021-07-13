@@ -6,6 +6,10 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 const htmlTemplate = require('./src/template');
 
+let makeEngineer = [];
+let makeIntern = [];
+let makeManager = [];
+
 const teamQuestion = [{ 
     type: 'list',
     message: "Which type of team member would you like to add?",
@@ -76,17 +80,65 @@ const internQuestions = [{
     name: 'school',
 }];
 
+function engineerTeam() {
+    inquirer.prompt(engineerQuestions)
+        .then((data) => {
+            const engineer = new Engineer(data.name, data.id, data.email, data.github);
+            makeEngineer.push(engineer);
+        });
+    inquirer.prompt(teamQuestion)
+        .then((newTeam) => {
+            if(newTeam.team == "Engineer"){
+                engineerTeam();
+            } else if (newTeam.team == "Intern"){
+                internTeam();
+            } else {
+                generateProfile();
+            }
+        });
+};
 
+function internTeam() {
+    inquirer.prompt(internQuestions)
+        .then((data) => {
+            const intern = new Intern(data.name, data.id, data.email, data.school);
+            makeIntern.push(intern);
+        })
+    inquirer.prompt(teamQuestion)
+        .then((newTeam) => {
+            if(newTeam.team == "Engineer"){
+                engineerTeam();
+            } else if (newTeam.team == "Intern"){
+                internTeam();
+            } else {
+                generateProfile();
+            }
+        });       
+};
 
 function init() {
     inquirer.prompt(managerQuestions)
         .then((data) => { 
-            const manager = new Manager(data.name, data.id, data.email, data.office)
-            const htmlContent = htmlTemplate.generateHTML(manager);
-            fs.writeFile('sampleIndex.html', htmlContent, (err) =>
-            err ? console.log(err) : console.log("Successfully created Team Profile!"))     
+            const manager = new Manager(data.name, data.id, data.email, data.office);
+            makeManager.push(manager);   
+        });
+    inquirer.prompt(teamQuestion)
+        .then((newTeam) => {
+            if(newTeam.team == "Engineer"){
+                engineerTeam();
+            } else if (newTeam.team == "Intern"){
+                internTeam();
+            } else {
+                generateProfile();
+            }
         });
 };
 
+function generateProfile() {
+    const htmlContent = htmlTemplate.generateHTML();
+    fs.writeFile('sampleIndex.html', htmlContent, (err) =>
+    err ? console.log(err) : console.log("Successfully created Team Profile!"));
+};
 
 init();
+

@@ -22,4 +22,24 @@ const generateHTML = (manager) =>
 </body>
 </html>`;
 
+const generateEngineer = () => {
+    makeEngineer.forEach(element => {
+        `<p>${engineer.getName()}</p>
+        <p>${engineer.getId()}</p>
+        <p>${engineer.getEmail()}</p>
+        <p>${engineer.getGithub()}</p>`
+    });
+    // append
+}
+
+const generateIntern = () => {
+    makeIntern.forEach(element => {
+        `<p>${intern.getName()}</p>
+        <p>${intern.getId()}</p>
+        <p>${intern.getEmail()}</p>
+        <p>${intern.getSchool()}</p>`
+    }); 
+    // append
+}
+
 module.exports = {generateHTML};
