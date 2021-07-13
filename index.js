@@ -80,22 +80,22 @@ const internQuestions = [{
     name: 'school',
 }];
 
+function init() {
+    inquirer.prompt(managerQuestions)
+        .then((data) => { 
+            const manager = new Manager(data.name, data.id, data.email, data.office);
+            makeManager.push(manager);   
+        });
+    teamPrompt();
+};
+
 function engineerTeam() {
     inquirer.prompt(engineerQuestions)
         .then((data) => {
             const engineer = new Engineer(data.name, data.id, data.email, data.github);
             makeEngineer.push(engineer);
         });
-    inquirer.prompt(teamQuestion)
-        .then((newTeam) => {
-            if(newTeam.team == "Engineer"){
-                engineerTeam();
-            } else if (newTeam.team == "Intern"){
-                internTeam();
-            } else {
-                generateProfile();
-            }
-        });
+    teamPrompt();
 };
 
 function internTeam() {
@@ -104,38 +104,24 @@ function internTeam() {
             const intern = new Intern(data.name, data.id, data.email, data.school);
             makeIntern.push(intern);
         })
-    inquirer.prompt(teamQuestion)
-        .then((newTeam) => {
-            if(newTeam.team == "Engineer"){
-                engineerTeam();
-            } else if (newTeam.team == "Intern"){
-                internTeam();
-            } else {
-                generateProfile();
-            }
-        });       
+    teamPrompt();
 };
 
-function init() {
-    inquirer.prompt(managerQuestions)
-        .then((data) => { 
-            const manager = new Manager(data.name, data.id, data.email, data.office);
-            makeManager.push(manager);   
-        });
+function teamPrompt() {
     inquirer.prompt(teamQuestion)
-        .then((newTeam) => {
-            if(newTeam.team == "Engineer"){
-                engineerTeam();
-            } else if (newTeam.team == "Intern"){
-                internTeam();
-            } else {
-                generateProfile();
-            }
-        });
-};
+    .then((newTeam) => {
+        if(newTeam.team == "Engineer"){
+            engineerTeam();
+        } else if (newTeam.team == "Intern"){
+            internTeam();
+        } else {
+            generateTeamPage();
+        }
+    });
+}
 
-function generateProfile() {
-    const htmlContent = htmlTemplate.generateHTML();
+function generateTeamPage() {
+    const htmlContent = htmlTemplate.generateHTML(makeManager);
     fs.writeFile('sampleIndex.html', htmlContent, (err) =>
     err ? console.log(err) : console.log("Successfully created Team Profile!"));
 };
