@@ -13,7 +13,7 @@ let makeManager = [];
 const teamQuestion = [{ 
     type: 'list',
     message: "Which type of team member would you like to add?",
-    list: ['Engineer', 'Intern', "I don't want to add any more team members"],
+    choices: ['Engineer', 'Intern', "I don't want to add any more team members"],
     name: 'team'
 }];
 
@@ -84,9 +84,10 @@ function init() {
     inquirer.prompt(managerQuestions)
         .then((data) => { 
             const manager = new Manager(data.name, data.id, data.email, data.office);
-            makeManager.push(manager);   
+            makeManager.push(manager);
+            teamPrompt();   
         });
-    teamPrompt();
+    
 };
 
 function engineerTeam() {
@@ -94,8 +95,8 @@ function engineerTeam() {
         .then((data) => {
             const engineer = new Engineer(data.name, data.id, data.email, data.github);
             makeEngineer.push(engineer);
+            teamPrompt();
         });
-    teamPrompt();
 };
 
 function internTeam() {
@@ -103,8 +104,8 @@ function internTeam() {
         .then((data) => {
             const intern = new Intern(data.name, data.id, data.email, data.school);
             makeIntern.push(intern);
-        })
-    teamPrompt();
+            teamPrompt();
+        });
 };
 
 function teamPrompt() {
@@ -121,8 +122,8 @@ function teamPrompt() {
 }
 
 function generateTeamPage() {
-    const htmlContent = htmlTemplate.generateHTML(makeManager);
-    fs.writeFile('sampleIndex.html', htmlContent, (err) =>
+    const htmlContent = htmlTemplate.generateHTML(makeManager, makeEngineer, makeIntern);
+    fs.writeFile('./dist/sampleIndex.html', htmlContent, (err) =>
     err ? console.log(err) : console.log("Successfully created Team Profile!"));
 };
 

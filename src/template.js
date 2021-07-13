@@ -4,7 +4,7 @@ const Engineer = require('../lib/Engineer');
 const Intern = require('../lib/Intern');
 const Manager = require('../lib/Manager');
 
-const generateHTML = (manager) =>
+const generateHTML = (manager, engineer, intern) =>
 
 `<!DOCTYPE html>
 <html lang="en">
@@ -28,59 +28,59 @@ const generateHTML = (manager) =>
             <div class="col pt-2">
                 <div class="card" style="width: 18rem;">
                     <div class="card-header bg-primary text-white">
-                    ${manager.getName()}: ${manager.getRole}
+                    ${manager[0].getName()}: ${manager[0].getRole()}
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">ID: ${manager.getId()}</li>
-                        <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
-                        <li class="list-group-item">Office Number: ${manager.getOfficeNumber()}</li>
+                        <li class="list-group-item">ID: ${manager[0].getId()}</li>
+                        <li class="list-group-item">Email: <a href="mailto:${manager[0].getEmail()}">${manager[0].getEmail()}</a></li>
+                        <li class="list-group-item">Office Number: ${manager[0].getOfficeNumber()}</li>
                     </ul>
                 </div>
             </div>
-
-
+            ${generateEngineer(engineer)}
+            ${generateIntern(intern)}
 
         </div>
-    </div>
-        
-            
+    </div>       
 </body>
 </html>`;
 
 const generateEngineer = (engineer) => {
-    makeEngineer.forEach(element => {
-        `<div class="col pt-2">
+    let engineerText = ``
+    engineer.forEach(element => {
+     engineerText +=  `<div class="col pt-2">
             <div class="card" style="width: 18rem;">
                 <div class="card-header bg-primary text-white">
-                ${engineer.getName()}: ${engineer.getRole()}
+                ${element.getName()}: ${element.getRole()}
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID: ${engineer.getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
-                    <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.getGithub()}">${engineer.getGithub()}</a></li>
+                    <li class="list-group-item">ID: ${element.getId()}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${element.getEmail()}">${element.getEmail()}</a></li>
+                    <li class="list-group-item">GitHub: <a href="https://github.com/${element.getGithub()}">${element.getGithub()}</a></li>
                 </ul>
             </div>
         </div>`
     });
-    // append
+    return engineerText;
 }
 
 const generateIntern = (intern) => {
-    makeIntern.forEach(element => {
-        `<div class="col pt-2">
+    let internText =   ``
+    intern.forEach(element => {
+    internText += `<div class="col pt-2">
             <div class="card" style="width: 18rem;">
                 <div class="card-header bg-primary text-white">
-                ${intern.getName()}: ${intern.getRole()}
+                ${element.getName()}: ${element.getRole()}
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">ID: ${intern.getId()}</li>
-                    <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
-                    <li class="list-group-item">School: ${intern.getSchool()}</li>
+                    <li class="list-group-item">ID: ${element.getId()}</li>
+                    <li class="list-group-item">Email: <a href="mailto:${element.getEmail()}">${element.getEmail()}</a></li>
+                    <li class="list-group-item">School: ${element.getSchool()}</li>
                 </ul>
             </div>
         </div>`
     }); 
-    // append
+    return internText;
 }
 
 module.exports = {generateHTML, generateEngineer, generateIntern};
