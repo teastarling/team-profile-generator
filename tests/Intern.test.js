@@ -1,6 +1,7 @@
 const Employee = require ("../lib/Employee");
 const Intern = require("../lib/Intern")
 
+// each object in intern subclass verified to be called upon correctly
 describe ("Intern", () => {
     describe("Initialization", () => {
         it("should return an object containing 'name,' 'id,' 'email', and 'school' properties", () => {

@@ -1,11 +1,13 @@
-const inquirer = require('inquirer')
-const fs = require('fs')
+// linking all associated pages and libraries
+const inquirer = require('inquirer');
+const fs = require('fs');
 const Employee = require('./lib/Employee');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 const htmlTemplate = require('./src/template');
 
+// empty arrays to push objects generated from user input into
 let makeEngineer = [];
 let makeIntern = [];
 let makeManager = [];
@@ -79,7 +81,7 @@ const internQuestions = [{
     message: "What is your intern's school?",
     name: 'school',
 }];
-
+// starts with manager questions and then moves to team questions for other prompts
 function init() {
     inquirer.prompt(managerQuestions)
         .then((data) => { 
@@ -89,7 +91,7 @@ function init() {
         });
     
 };
-
+// team prompt at end to allow for other team members
 function engineerTeam() {
     inquirer.prompt(engineerQuestions)
         .then((data) => {
@@ -98,7 +100,7 @@ function engineerTeam() {
             teamPrompt();
         });
 };
-
+// also includes team prompt at end to allow for other team members
 function internTeam() {
     inquirer.prompt(internQuestions)
         .then((data) => {
@@ -107,7 +109,7 @@ function internTeam() {
             teamPrompt();
         });
 };
-
+// this prompt offers other prompts or executes page generation if user is done
 function teamPrompt() {
     inquirer.prompt(teamQuestion)
     .then((newTeam) => {
@@ -119,8 +121,8 @@ function teamPrompt() {
             generateTeamPage();
         }
     });
-}
-
+};
+// generates html using arrays created from user prompts with function from template.js
 function generateTeamPage() {
     const htmlContent = htmlTemplate.generateHTML(makeManager, makeEngineer, makeIntern);
     fs.writeFile('./dist/sampleIndex.html', htmlContent, (err) =>

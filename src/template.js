@@ -4,8 +4,8 @@ const Engineer = require('../lib/Engineer');
 const Intern = require('../lib/Intern');
 const Manager = require('../lib/Manager');
 
+// creates entire html document with user input arrays; called on in index.js
 const generateHTML = (manager, engineer, intern) =>
-
 `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +45,7 @@ const generateHTML = (manager, engineer, intern) =>
 </body>
 </html>`;
 
+// new card for each engineer
 const generateEngineer = (engineer) => {
     let engineerText = ``
     engineer.forEach(element => {
@@ -56,14 +57,14 @@ const generateEngineer = (engineer) => {
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">ID: ${element.getId()}</li>
                     <li class="list-group-item">Email: <a href="mailto:${element.getEmail()}">${element.getEmail()}</a></li>
-                    <li class="list-group-item">GitHub: <a href="https://github.com/${element.getGithub()}">${element.getGithub()}</a></li>
+                    <li class="list-group-item">GitHub: <a href="https://github.com/${element.getGithub()}" target="_blank" rel="noopener noreferrer">${element.getGithub()}</a></li>
                 </ul>
             </div>
         </div>`
     });
     return engineerText;
 }
-
+// new card for each intern
 const generateIntern = (intern) => {
     let internText =   ``
     intern.forEach(element => {

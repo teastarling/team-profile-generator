@@ -1,5 +1,6 @@
 const Employee = require ("../lib/Employee");
 
+// each object in employee parent class verified to be called upon correctly
 describe ("Employee", () => {
     
     describe("Initialization", () => {
